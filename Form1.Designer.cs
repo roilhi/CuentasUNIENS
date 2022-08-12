@@ -49,6 +49,7 @@
             this.tbMatr = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.tbClave = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -269,12 +270,25 @@
             this.tbClave.Size = new System.Drawing.Size(85, 27);
             this.tbClave.TabIndex = 20;
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.Control;
+            this.button1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(590, 44);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(131, 39);
+            this.button1.TabIndex = 21;
+            this.button1.Text = "LIMPIAR";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Navy;
             this.ClientSize = new System.Drawing.Size(778, 442);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.tbClave);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tbMatr);
@@ -331,6 +345,7 @@
         private System.Windows.Forms.TextBox tbMatr;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox tbClave;
+        private System.Windows.Forms.Button button1;
     }
 }
 

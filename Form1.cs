@@ -120,5 +120,18 @@ namespace ConsultaCuentasUNIENS
                 }
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            tbName.Text = "";
+            tbLastName.Text = "";
+            tbEmail.Text = "";
+            tbPassword.Text = "";
+            tbMatr.Text = "";
+            tbTurno.Text = "";
+            tbCuatri.Text = "";
+            tbClave.Text = "";
+            tbCarrera.Text = "";
+        }
     }
 }
