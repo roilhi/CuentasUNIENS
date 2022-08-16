@@ -27,9 +27,12 @@ namespace ConsultaCuentasUNIENS
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            MessageBox.Show("Ingresa los apellidos del estudiante");
-            tbLastName.Select();
-            tbLastName.Focus();
+            MessageBox.Show("Seleccione Opción de Búsqueda");
+            cboOption.Select();
+            cboOption.Focus();
+            cboOption.Text = "Seleccionar";
+            //tbLastName.Select();
+            //tbLastName.Focus();
         }
 
         private void tbLastName_KeyDown(object sender, KeyEventArgs e) 
@@ -83,40 +86,87 @@ namespace ConsultaCuentasUNIENS
         { 
             if (e.KeyCode == Keys.Enter) 
             {
-                tbName.Text = tbName.Text.Trim().ToUpper();
-                string wName = tbLastName.Text + " " + tbName.Text;
-                var settings = MongoClientSettings.FromConnectionString("mongodb+srv://uniens:uniens22@cluster0.ex5nn.mongodb.net/?retryWrites=true&w=majority?connect=replicaSet");
-                var client = new MongoClient(settings);
-                var database = client.GetDatabase("studENS");
-                var collection = database.GetCollection<BsonDocument>("infoMails");
-                var filter = Builders<BsonDocument>.Filter.Eq("wholeName", wName);
-                var BsonDoc = collection.Find(filter).FirstOrDefault();
-                try
+                if (cboOption.SelectedIndex == -1) 
                 {
-                    if (BsonDoc != null) 
+                    MessageBox.Show("Por favor seleccione una opción de búsqueda");
+                    cboOption.Select();
+                    cboOption.Focus();
+                }
+                else if (cboOption.Text == "Alumno")
+                {
+                    tbName.Text = tbName.Text.Trim().ToUpper();
+                    string wName = tbLastName.Text + " " + tbName.Text;
+                    var settings = MongoClientSettings.FromConnectionString("mongodb+srv://uniens:uniens22@cluster0.ex5nn.mongodb.net/?retryWrites=true&w=majority?connect=replicaSet");
+                    var client = new MongoClient(settings);
+                    var database = client.GetDatabase("studENS");
+                    var collection = database.GetCollection<BsonDocument>("infoMails");
+                    var filter = Builders<BsonDocument>.Filter.Eq("wholeName", wName);
+                    var BsonDoc = collection.Find(filter).FirstOrDefault();
+                    try
                     {
-                        string email = BsonDoc["mail"].ToString();
-                        string pass = BsonDoc["password"].ToString();
-                        string matr = BsonDoc["matInt"].ToString();
-                        string turno = BsonDoc["turno"].ToString();
-                        string cuatr = BsonDoc["cuatri"].ToString();
-                        string clave = BsonDoc["carrera"].ToString();
-                        tbEmail.Text = email;
-                        tbPassword.Text = pass;
-                        tbMatr.Text = matr;
-                        tbTurno.Text = turno;
-                        tbCuatri.Text = cuatr;
-                        tbClave.Text = clave;
-                        tbCarrera.Text = ClaveCarrera(clave);
+                        if (BsonDoc != null)
+                        {
+                            string email = BsonDoc["mail"].ToString();
+                            string pass = BsonDoc["password"].ToString();
+                            string matr = BsonDoc["matInt"].ToString();
+                            string turno = BsonDoc["turno"].ToString();
+                            string cuatr = BsonDoc["cuatri"].ToString();
+                            string clave = BsonDoc["carrera"].ToString();
+                            tbEmail.Text = email;
+                            tbPassword.Text = pass;
+                            tbMatr.Text = matr;
+                            tbTurno.Text = turno;
+                            tbCuatri.Text = cuatr;
+                            tbClave.Text = clave;
+                            tbCarrera.Text = ClaveCarrera(clave);
+                        }
+                        else
+                        {
+                            MessageBox.Show("El usuario no existe, favor de verificar");
+                        }
                     }
-                    else 
+                    catch
                     {
-                        MessageBox.Show("El usuario no existe, favor de verificar");
+                        MessageBox.Show("Error con la conexión a la base de datos");
                     }
                 }
-                catch 
+                else if (cboOption.Text == "Docente") 
                 {
-                    MessageBox.Show("Error con la conexión a la base de datos");
+                    tbName.Text = tbName.Text.Trim().ToUpper();
+                    string whName = tbName.Text + " " + tbLastName.Text;
+                    var settings = MongoClientSettings.FromConnectionString("mongodb+srv://uniens:uniens22@cluster0.ex5nn.mongodb.net/?retryWrites=true&w=majority?connect=replicaSet");
+                    var client = new MongoClient(settings);
+                    var database = client.GetDatabase("studENS");
+                    var collection = database.GetCollection<BsonDocument>("docentENS");
+                    var filter = Builders<BsonDocument>.Filter.Eq("wholeName", whName);
+                    var BsonDoc = collection.Find(filter).FirstOrDefault();
+                    try
+                    {
+                        if (BsonDoc != null)
+                        {
+                            string email = BsonDoc["email"].ToString();
+                            string pass = BsonDoc["password"].ToString();
+                            string matr = BsonDoc["id"].ToString();
+                            //string turno = BsonDoc["turno"].ToString();
+                            //string cuatr = BsonDoc["cuatri"].ToString();
+                            //string clave = BsonDoc["carrera"].ToString();
+                            tbEmail.Text = email;
+                            tbPassword.Text = pass;
+                            tbMatr.Text = matr;
+                            tbTurno.Text = "";
+                            tbCuatri.Text = "";
+                            tbClave.Text = "";
+                            tbCarrera.Text = "";
+                        }
+                        else
+                        {
+                            MessageBox.Show("El usuario no existe, favor de verificar");
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Error con la conexión a la base de datos");
+                    }
                 }
             }
         }
@@ -132,6 +182,13 @@ namespace ConsultaCuentasUNIENS
             tbCuatri.Text = "";
             tbClave.Text = "";
             tbCarrera.Text = "";
+        }
+
+        private void cboOption_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MessageBox.Show("Ingresa los apellidos");
+            tbLastName.Select();
+            tbLastName.Focus();
         }
     }
 }
